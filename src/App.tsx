@@ -3,11 +3,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 
 import Auth from './components/Auth';
-
-interface Note {
-  id: string;
-  content: string;
-}
+import NotesList from './components/NotesList';
+import type { Note } from './types/Note';
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
@@ -79,14 +76,7 @@ export default function App() {
         <button onClick={addNote} className="bg-blue-600 text-white px-4">Add</button>
       </div>
 
-      <ul className="space-y-2">
-        {notes.map((note) => (
-          <li key={note.id} className="flex justify-between items-center border p-2">
-            {note.content}
-            <button onClick={() => deleteNote(note.id)} className="text-red-600">Delete</button>
-          </li>
-        ))}
-      </ul>
+			<NotesList notes={notes} onDelete={deleteNote}/>
     </div>
   );
 }
