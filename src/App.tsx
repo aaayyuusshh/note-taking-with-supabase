@@ -1,35 +1,96 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import { useState, useEffect } from 'react';
+import { supabase } from './supabaseClient';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Note {
+  id: string;
+  content: string;
 }
 
-export default App
+export default function App() {
+  const [session, setSession] = useState<any>(null);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    supabase.auth.onAuthStateChange((_event, session) => setSession(session));
+  }, []);
+
+  useEffect(() => {
+    if (session) fetchNotes();
+  }, [session]);
+
+  async function fetchNotes() {
+    const { data } = await supabase.from('notes').select('*').order('created_at', { ascending: false });
+    if (data) setNotes(data);
+  }
+
+  async function addNote() {
+    const { data: userData } = await supabase.auth.getUser();
+
+    await supabase.from('notes').insert({ 
+      content,
+      user_id: userData?.user?.id
+    });
+    setContent('');
+    fetchNotes();
+  }
+
+  async function deleteNote(id: string) {
+    await supabase.from('notes').delete().eq('id', id);
+    fetchNotes();
+  }
+
+  async function handleLogin() {
+    const email = prompt('Enter your email')!;
+    const password = prompt('Enter your password')!;
+    await supabase.auth.signInWithPassword({ email, password });
+  }
+
+  async function handleSignup() {
+    const email = prompt('Enter your email')!;
+    const password = prompt('Enter your password')!;
+    await supabase.auth.signUp({ email, password });
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+  }
+
+  if (!session) {
+    return (
+      <div className="flex flex-col items-center mt-10 gap-4">
+        <h1 className="text-xl font-bold">Supabase Notes</h1>
+        <button onClick={handleLogin} className="bg-blue-500 text-white px-4 py-2">Login</button>
+        <button onClick={handleSignup} className="bg-green-500 text-white px-4 py-2">Signup</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-md mx-auto mt-10 p-4 border rounded shadow">
+      <h1 className="text-2xl font-bold mb-4">My Notes</h1>
+      <button onClick={handleLogout} className="bg-gray-500 text-white px-3 py-1 mb-4">Logout</button>
+      
+      <div className="flex gap-2 mb-4">
+        <input
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write a note..."
+          className="flex-1 border px-2 py-1"
+        />
+        <button onClick={addNote} className="bg-blue-600 text-white px-4">Add</button>
+      </div>
+
+      <ul className="space-y-2">
+        {notes.map((note) => (
+          <li key={note.id} className="flex justify-between items-center border p-2">
+            {note.content}
+            <button onClick={() => deleteNote(note.id)} className="text-red-600">Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
