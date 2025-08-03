@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 
+import Auth from './components/Auth';
+
 interface Note {
   id: string;
   content: string;
@@ -59,13 +61,7 @@ export default function App() {
   }
 
   if (!session) {
-    return (
-      <div className="flex flex-col items-center mt-10 gap-4">
-        <h1 className="text-xl font-bold">Supabase Notes</h1>
-        <button onClick={handleLogin} className="bg-blue-500 text-white px-4 py-2">Login</button>
-        <button onClick={handleSignup} className="bg-green-500 text-white px-4 py-2">Signup</button>
-      </div>
-    );
+    return <Auth onLogin={handleLogin} onSignup={handleSignup}/>
   }
 
   return (
