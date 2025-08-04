@@ -1,4 +1,3 @@
-// src/App.tsx
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import Auth from './components/Auth';
@@ -6,6 +5,7 @@ import NotesList from './components/NotesList';
 import NoteAddForm from './components/NoteAddForm';
 import Header from './components/Header';
 import {fetchNotes, addNote, deleteNote} from './services/notesDbService';
+import { handleLogin, handleSignup, handleLogout } from './services/authService';
 import type { Note } from './types/Note';
 
 export default function App() {
@@ -39,22 +39,6 @@ export default function App() {
   async function handleDelete(id: string) {
     await deleteNote(id);
     loadNotes();
-  }
-
-  async function handleLogin() {
-    const email = prompt('Enter your email')!;
-    const password = prompt('Enter your password')!;
-    await supabase.auth.signInWithPassword({ email, password });
-  }
-
-  async function handleSignup() {
-    const email = prompt('Enter your email')!;
-    const password = prompt('Enter your password')!;
-    await supabase.auth.signUp({ email, password });
-  }
-
-  async function handleLogout() {
-    await supabase.auth.signOut();
   }
 
   if (!session) {
