@@ -1,69 +1,29 @@
-# React + TypeScript + Vite
+# Supabase Notes 🗒️
+A minimal, modern note-taking app.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was made for learning purposes only; to quickly learn and demonstrate my ability to work with BaaS(Supabase) for authentication, database management, and secure note sharing.
 
-Currently, two official plugins are available:
+----
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- User Authentication – Email/password login and signup with Supabase
+- Secure Sessions – Authenticated notes per user
+- Create & Delete Notes – Simple note management
+- Note Sharing – Share notes with other users (view-only access)
+- Role-based Access – Owners vs. collaborators with policies enforced at the database level
+- Express Backend – Uses Supabase service key securely for admin access for sharing functionality
+- Modern UI – Aesthetic and responsive interface with TailwindCSS and React best practices
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Frontend: React (TypeScript), TailwindCSS
+- Backend: Express.js (Node.js)
+- Database & Auth: Supabase (PostgreSQL with Row Level Security)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🏘️ Architecture
+<img width="853" height="667" alt="Screenshot 2025-08-04 at 5 18 19 PM" src="https://github.com/user-attachments/assets/d5d7dbbf-1d38-4fa5-8497-d4f54d8e5ecf" />
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+> Frontend communicates directly with Supabase for all functionality, except for note sharing. Since note sharing requires us to retrieve other users' info, which requires admin privileges, it has to be handled through a secure backend, per Superbase policy.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📊 Database schema 
+ <img width="853" height="443" alt="Screenshot 2025-08-04 at 4 17 31 PM" src="https://github.com/user-attachments/assets/49df02fd-3661-47e0-a996-8964eb4bca1c" />
