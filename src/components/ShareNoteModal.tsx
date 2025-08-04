@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 interface Props {
   noteId: string;
-  onShare: (noteId: string, email: string) => void;
+  onShare: (email: string) => void;
   onClose: () => void;
 }
 
@@ -25,7 +25,7 @@ export default function ShareNoteModal({ noteId, onShare, onClose }: Props) {
             Cancel
           </button>
           <button
-            onClick={() => onShare(noteId, email)}
+            onClick={() => onShare(email)}
             className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
           >
             Share

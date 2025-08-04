@@ -34,5 +34,22 @@ export function useNotes(session: any) {
     loadNotes();
   }
 
-  return { notes, handleAdd, handleDelete };
+    async function handleShare(noteId: string, email: string) {
+    const response = await fetch('http://localhost:4000/share-note', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ noteId, email }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || 'Failed to share note');
+      return;
+    }
+
+    alert(data.message);
+  }
+
+  return { notes, handleAdd, handleDelete, handleShare };
 }

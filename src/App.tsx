@@ -10,31 +10,13 @@ import ShareNoteModal from './components/ShareNoteModal';
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
-  const { notes, handleAdd, handleDelete } = useNotes(session);
+  const { notes, handleAdd, handleDelete, handleShare } = useNotes(session);
   const [shareNoteId, setShareNoteId] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
     supabase.auth.onAuthStateChange((_event, session) => setSession(session));
   }, []);
-
-  async function handleShare(noteId: string, email: string) {
-    const response = await fetch('http://localhost:4000/share-note', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ noteId, email }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      alert(data.error || 'Failed to share note');
-      return;
-    }
-
-    alert(data.message);
-    setShareNoteId(null);
-  }
 
   if (!session) {
     return <Auth onLogin={handleLogin} onSignup={handleSignup}/>
@@ -49,7 +31,10 @@ export default function App() {
         {shareNoteId && (
           <ShareNoteModal
             noteId={shareNoteId}
-            onShare={handleShare}
+            onShare={async (email) => {
+              await handleShare(shareNoteId, email);
+              setShareNoteId(null);
+            }}
             onClose={() => setShareNoteId(null)}
           />
         )}
