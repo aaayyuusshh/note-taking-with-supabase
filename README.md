@@ -3,6 +3,10 @@ A minimal, modern note-taking app.
 
 This project was made for learning purposes only; to quickly learn and demonstrate my ability to work with BaaS(Supabase) for authentication, database management, and secure note sharing.
 
+<img width="1433" height="810" alt="Screenshot 2025-08-04 at 5 27 25 PM" src="https://github.com/user-attachments/assets/bee41f13-fefe-4bfb-bc81-de6d3cd90a1e" />
+<img width="1433" height="809" alt="Screenshot 2025-08-04 at 5 28 22 PM" src="https://github.com/user-attachments/assets/fbd6bfe5-7697-472e-b4ba-d355275a82bb" />
+
+
 ----
 
 ## 🚀 Features
