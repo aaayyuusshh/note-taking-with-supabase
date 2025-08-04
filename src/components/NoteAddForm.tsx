@@ -24,7 +24,7 @@ export default function NoteAddForm({ onAdd }: Props) {
       />
       <button
         type="submit"
-        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md px-6 py-2 transition cursor-pointer"
+        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold font-md rounded-md px-6 py-2 transition cursor-pointer"
       >
         Add
       </button>

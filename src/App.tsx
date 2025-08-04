@@ -23,7 +23,7 @@ export default function App() {
    return (
     <div className="min-h-screen bg-indigo-50 py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <Header onLogout={handleLogout}/>
+        <Header onLogout={handleLogout} userEmail={session.user?.email}/>
         <NoteAddForm onAdd={handleAdd}/>
         <NotesList notes={notes} onDelete={handleDelete}/>
       </div>
