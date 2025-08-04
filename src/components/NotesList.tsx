@@ -3,9 +3,10 @@ import type { Note } from '../types/Note';
 interface Props {
   notes: Note[];
   onDelete: (id: string) => void;
+  onShare:(id: string) => void;
 }
 
-export default function NotesList({ notes, onDelete }: Props) {
+export default function NotesList({ notes, onDelete, onShare }: Props) {
   return (
     <ul className="space-y-3">
       {notes.length === 0 && (
@@ -23,6 +24,12 @@ export default function NotesList({ notes, onDelete }: Props) {
             className="text-red-500 hover:text-red-700 transition ml-4"
           >
             🗑️
+          </button>
+          <button
+            onClick={() => onShare(note.id)}
+            className="text-blue-500 hover:text-blue-700 transition"
+          >
+            🔗
           </button>
         </li>
       ))}
