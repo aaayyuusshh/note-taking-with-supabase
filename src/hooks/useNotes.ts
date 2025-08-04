@@ -34,7 +34,8 @@ export function useNotes(session: any) {
     loadNotes();
   }
 
-    async function handleShare(noteId: string, email: string) {
+  async function handleShare(noteId: string, email: string) {
+    // put this in noteDbService
     const response = await fetch('http://localhost:4000/share-note', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
