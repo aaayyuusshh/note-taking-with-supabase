@@ -5,10 +5,27 @@ interface Props {
 
 export default function Auth({ onLogin, onSignup }: Props) {
   return (
-    <div className="flex flex-col items-center mt-10 gap-4">
-      <h1 className="text-xl font-bold">Supabase Notes</h1>
-      <button onClick={onLogin} className="bg-blue-500 text-white px-4 py-2">Login</button>
-      <button onClick={onSignup} className="bg-green-500 text-white px-4 py-2">Signup</button>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-8 bg-indigo-50 px-6">
+      <h1 className="text-5xl font-semibold text-indigo-900 drop-shadow-md">
+        Welcome to <b>Supabase Notes</b> 🗒️
+      </h1>
+      <div className="flex gap-6">
+        <button
+          onClick={onLogin}
+          className="bg-indigo-600 hover:bg-indigo-700 transition text-white font-semibold rounded-lg px-8 py-3 shadow-md cursor-pointer"
+        >
+          Login
+        </button>
+        <button
+          onClick={onSignup}
+          className="bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg px-8 py-3 shadow-md cursor-pointer"
+        >
+          Signup
+        </button>
+      </div>
+      <p className="text-indigo-800 max-w-sm text-center">
+        Simple, fast note taking powered by <i>Supabase</i>. Log in or sign up to get started.
+      </p>
     </div>
   );
 }
