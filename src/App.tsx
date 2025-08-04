@@ -4,12 +4,13 @@ import { supabase } from './supabaseClient';
 
 import Auth from './components/Auth';
 import NotesList from './components/NotesList';
+import NoteAddForm from './components/NoteAddForm';
+
 import type { Note } from './types/Note';
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
   const [notes, setNotes] = useState<Note[]>([]);
-  const [content, setContent] = useState('');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
@@ -25,14 +26,14 @@ export default function App() {
     if (data) setNotes(data);
   }
 
-  async function addNote() {
+  async function addNote(content: string) {
     const { data: userData } = await supabase.auth.getUser();
 
     await supabase.from('notes').insert({ 
-      content,
+      content: content,
       user_id: userData?.user?.id
     });
-    setContent('');
+   
     fetchNotes();
   }
 
@@ -66,16 +67,7 @@ export default function App() {
       <h1 className="text-2xl font-bold mb-4">My Notes</h1>
       <button onClick={handleLogout} className="bg-gray-500 text-white px-3 py-1 mb-4">Logout</button>
       
-      <div className="flex gap-2 mb-4">
-        <input
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Write a note..."
-          className="flex-1 border px-2 py-1"
-        />
-        <button onClick={addNote} className="bg-blue-600 text-white px-4">Add</button>
-      </div>
-
+     	<NoteAddForm onAdd={addNote}/>
 			<NotesList notes={notes} onDelete={deleteNote}/>
     </div>
   );
