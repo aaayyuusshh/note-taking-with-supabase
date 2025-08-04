@@ -5,6 +5,7 @@ import { supabase } from './supabaseClient';
 import Auth from './components/Auth';
 import NotesList from './components/NotesList';
 import NoteAddForm from './components/NoteAddForm';
+import Header from './components/Header';
 
 import type { Note } from './types/Note';
 
@@ -64,9 +65,7 @@ export default function App() {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-4 border rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">My Notes</h1>
-      <button onClick={handleLogout} className="bg-gray-500 text-white px-3 py-1 mb-4">Logout</button>
-      
+      <Header onLogout={handleLogout}/>
      	<NoteAddForm onAdd={addNote}/>
 			<NotesList notes={notes} onDelete={deleteNote}/>
     </div>
