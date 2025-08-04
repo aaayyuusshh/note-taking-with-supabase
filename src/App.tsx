@@ -1,12 +1,11 @@
 // src/App.tsx
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
-
 import Auth from './components/Auth';
 import NotesList from './components/NotesList';
 import NoteAddForm from './components/NoteAddForm';
 import Header from './components/Header';
-
+import {fetchNotes, addNote, deleteNote} from './services/notesDbService';
 import type { Note } from './types/Note';
 
 export default function App() {
@@ -19,28 +18,27 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (session) fetchNotes();
+    if (session) loadNotes();
   }, [session]);
 
-  async function fetchNotes() {
-    const { data } = await supabase.from('notes').select('*').order('created_at', { ascending: false });
+  async function loadNotes() {
+    const { data } = await fetchNotes();
     if (data) setNotes(data);
   }
 
-  async function addNote(content: string) {
+  async function handleAdd(content: string) {
     const { data: userData } = await supabase.auth.getUser();
-
-    await supabase.from('notes').insert({ 
-      content: content,
-      user_id: userData?.user?.id
-    });
-   
-    fetchNotes();
+    const userId = userData?.user?.id;
+    
+    if(userId) {
+      await addNote(content, userId);
+      loadNotes();
+    }
   }
 
-  async function deleteNote(id: string) {
-    await supabase.from('notes').delete().eq('id', id);
-    fetchNotes();
+  async function handleDelete(id: string) {
+    await deleteNote(id);
+    loadNotes();
   }
 
   async function handleLogin() {
@@ -66,8 +64,8 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto mt-10 p-4 border rounded shadow">
       <Header onLogout={handleLogout}/>
-     	<NoteAddForm onAdd={addNote}/>
-			<NotesList notes={notes} onDelete={deleteNote}/>
+     	<NoteAddForm onAdd={handleAdd}/>
+      <NotesList notes={notes} onDelete={handleDelete}/>
     </div>
   );
 }
