@@ -1,16 +1,10 @@
 import { supabase } from '../supabaseClient';
 
-export async function handleLogin() {
-  const email = prompt('Enter your email')!;
-  const password = prompt('Enter your password')!;
-  
+export async function handleLogin(email: string, password: string) { 
   return await supabase.auth.signInWithPassword({ email, password });
 }
 
-export async function handleSignup() {
-  const email = prompt('Enter your email')!;
-  const password = prompt('Enter your password')!;
-  
+export async function handleSignup(email: string, password: string) {
   return await supabase.auth.signUp({ email, password });
 }
 
