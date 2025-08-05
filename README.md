@@ -25,9 +25,9 @@ This project was made for learning purposes only; to quickly learn and demonstra
 - Database & Auth: Supabase (PostgreSQL with Row Level Security)
 
 ## 🏘️ Architecture
-<img width="853" height="667" alt="Screenshot 2025-08-04 at 5 18 19 PM" src="https://github.com/user-attachments/assets/d5d7dbbf-1d38-4fa5-8497-d4f54d8e5ecf" />
+<img width="900" height="667" alt="Screenshot 2025-08-04 at 5 18 19 PM" src="https://github.com/user-attachments/assets/d5d7dbbf-1d38-4fa5-8497-d4f54d8e5ecf" />
 
 > Frontend communicates directly with Supabase for all functionality, except for note sharing. Since note sharing requires us to retrieve other users' info, which requires admin privileges, it has to be handled through a secure backend, per Superbase policy.
 
 ## 📊 Database schema 
- <img width="853" height="443" alt="Screenshot 2025-08-04 at 4 17 31 PM" src="https://github.com/user-attachments/assets/49df02fd-3661-47e0-a996-8964eb4bca1c" />
+<img width="900" height="1410" alt="supabase-schema-wszuqwholzimyasvigep" src="https://github.com/user-attachments/assets/9051f1b3-680e-412c-835f-7b46c312a8b3" />
